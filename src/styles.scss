@@ -1,3 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+/* Note: Using @import for Tailwind CSS v4 (recommended syntax) */
+/* Sass @import deprecation warning is expected but harmless - Tailwind CSS v4 supports this */
 @import "tailwindcss";
 @import "@fortawesome/fontawesome-free/css/all.min.css";

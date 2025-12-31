@@ -11,9 +11,9 @@ export class KeyCloakService {
   get keyClock() {
     if (!this._keycloak) {
       this._keycloak = new Keycloak({
-        url: 'http://localhost:8000',
+        url: 'http://localhost:9090',
         realm: 'whatsapp-clone',
-        clientId: 'whatsapp-clone-app',
+        clientId: 'whatsapp-clone',
       });
     }
     return this._keycloak;
@@ -22,11 +22,16 @@ export class KeyCloakService {
   async init() {
     const authenticated = await this.keyClock.init({
       onLoad: 'login-required',
+      checkLoginIframe: false,
+      pkceMethod: 'S256',
+      redirectUri: 'http://localhost:4200'
     });
   }
 
   async login() {
-    await this.keyClock.login();
+    await this.keyClock.login({
+      redirectUri: 'http://localhost:4200'
+    });
   }
 
   get userId(): string {
@@ -38,7 +43,7 @@ export class KeyCloakService {
   }
 
   async logout() {
-    return this.keyClock.login({
+    return this.keyClock.logout({
       redirectUri: 'http://localhost:4200'
     });
   }
@@ -47,5 +52,23 @@ export class KeyCloakService {
     return this.keyClock.accountManagement();
   }
 
+  async register() {
+    try {
+      // Use Keycloak JS library's register method which should handle URL construction correctly
+      // This will redirect to Keycloak's registration page
+      await this.keyClock.register({
+        redirectUri: 'http://localhost:4200',
+        locale: 'en'
+      });
+    }
+    catch (error) {
+      console.error('Registration error:', error);
+      console.error('Error details:', {
+        message: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined
+      });
+      throw error;
+    }
+  }
 
 }

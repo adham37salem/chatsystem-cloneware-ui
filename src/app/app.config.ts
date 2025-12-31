@@ -7,15 +7,18 @@ import {
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {KeyCloakService} from './utils/keycloak/key-cloak-service';
+import {keyClockInterceptorInterceptor} from './utils/http/key-clock-interceptor-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([keyClockInterceptorInterceptor])
+    ),
     provideAppInitializer(() => {
       const initFn = ((key: KeyCloakService) => {
         return () => key.init();
