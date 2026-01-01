@@ -3,3 +3,13 @@
 /* Sass @import deprecation warning is expected but harmless - Tailwind CSS v4 supports this */
 @import "tailwindcss";
 @import "@fortawesome/fontawesome-free/css/all.min.css";
+
+.user-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  >img {
+    width: 100%;
+  }
+}

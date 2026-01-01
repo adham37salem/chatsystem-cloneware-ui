@@ -1,5 +1,84 @@
 <div class="sticky bg-white">
-  <div class="flex justify-between items-center gap-2 p-2">
+  <div class="flex justify-between items-center gap-10 p-2">
     <h4>Chat </h4>
+    @if (!searchNewContact) {
+      <i class="fas fa-comment-medical cursor-pointer" (click)="searchContact()"></i>
+    } @else {
+      <i class="fas fa-times-circle cursor-pointer" (click)="searchNewContact = false"></i>
+    }
   </div>
+  <div class="flex flex-col gap-2 p-2">
+    <div class="flex flex-col gap-2 py-2">
+      <div class="flex items-center gap-2 rounded-md border border-gray-300 px-3 py-2 bg-white">
+        <i class="fas fa-search text-gray-500"></i>
+        <input
+          type="text"
+          class="w-full outline-none text-sm"
+          placeholder="Search in the chat"
+        />
+      </div>
+      <div class="flex gap-6 text-sm font-medium">
+        <button type="button" class="cursor-pointer text-black border-b-2 border-black pb-1">
+          All
+        </button>
+        <button type="button" class="cursor-pointer text-gray-500 hover:text-black pb-1">
+          Unread
+        </button>
+        <button type="button" class="cursor-pointer text-gray-500 hover:text-black pb-1">
+          Favorites
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-4">
+  @if (chats().length && !searchNewContact) {
+    @for (chat of chats(); track chat) {
+      <div class="flex items-center justify-between p-2 border border-[#CCC]" (click)="chatClicked()">
+        <div class="flex gap-2">
+          <div class="user-img">
+            <img src="../../../../public/user.png" alt="" />
+          </div>
+          <div class="flex flex-col">
+            <span>{{ chat.name }}</span>
+            <small class="text-[#6c757d]">
+              @if (chat.lastMessage === 'Attachment') {
+                <i class="fas fa-image"></i>
+              }
+              {{ wrapMessage(chat.lastMessage) }}
+            </small>
+          </div>
+        </div>
+        <div class="flex flex-col items-end">
+          <span class="" [class.unread]="chat.unreadCount && chat.unreadCount > 0">
+            {{ chat.lastMessageTime | date: 'dd.MM.yy HH.mm' }}
+          </span>
+          @if (chat.unreadCount && chat.unreadCount > 0) {
+            <small class="unread-msg-badge">{{ chat.unreadCount }}</small>
+          }
+        </div>
+      </div>
+    }
+  } @else if (searchNewContact) {
+    @for (contact of contacts; track contact) {
+      <div class="flex items-center justify-between border border-b-gray-400 p-2" (click)="selectContact(contact)">
+        <div class="flex gap-2">
+          <div class="user-img">
+            <img src="../../../../public/user.png" alt="" />
+          </div>
+          <div class="flex flex-col">
+            <span>{{ contact.firstName + ' ' + contact.lastName }}</span>
+            @if (contact.online) {
+              <small class="text-[#6c757d]">Online</small>
+            } @else {
+              <small class="text-[#6c757d]">Last seen&nbsp; {{ contact.lastSeen | date: 'dd.MM.yy HH.mm' }}</small>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+  } @else {
+    <small class="">Not Chats yet...</small>
+  }
 </div>

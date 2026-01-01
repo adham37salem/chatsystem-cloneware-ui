@@ -1,12 +1,49 @@
 import {Component, input, InputSignal} from '@angular/core';
 import {ChatResponse} from '../../services/models/chat-response';
+import {fakeAsync} from '@angular/core/testing';
+import {DatePipe} from '@angular/common';
+import {UserResponse} from '../../services/models/user-response';
+import {UserService} from '../../services/services/user.service';
 
 @Component({
   selector: 'app-chatlist',
-  imports: [],
+  imports: [
+    DatePipe
+  ],
   templateUrl: './chatlist.html',
   styleUrl: './chatlist.css',
 })
 export class Chatlist {
   chats: InputSignal<ChatResponse[]> = input<ChatResponse[]>([]);
+  searchNewContact: boolean = false;
+  contacts: Array<UserResponse> = [];
+  constructor(private userService: UserService) {}
+
+
+
+  searchContact() {
+    this.userService.getAllUsers().subscribe({
+      next: (users) => {
+        this.contacts = users;
+        this.searchNewContact = true;
+      }
+    });
+
+  }
+
+  chatClicked() {
+
+  }
+
+  wrapMessage(lastMessage: string | undefined) {
+    if (lastMessage && lastMessage.length <= 20) {
+      return lastMessage;
+    }
+    return lastMessage?.substring(0,17) + '...';
+  }
+
+
+  selectContact(contact: UserResponse) {
+
+  }
 }
