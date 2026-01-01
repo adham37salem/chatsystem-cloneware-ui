@@ -1,12 +1,12 @@
 {
-  "openapi": "3.1.0",
+  "openapi": "3.0.1",
   "info": {
     "title": "OpenAPI definition",
     "version": "v0"
   },
   "servers": [
     {
-      "url": "http://localhost:8000",
+      "url": "http://localhost:8080",
       "description": "Generated server url"
     }
   ],
@@ -37,7 +37,7 @@
         "tags": [
           "Message"
         ],
-        "operationId": "setMessagesToSeen",
+        "operationId": "setMessageToSeen",
         "parameters": [
           {
             "name": "chat-id",
@@ -49,8 +49,8 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
+          "202": {
+            "description": "Accepted"
           }
         }
       }
@@ -60,7 +60,7 @@
         "tags": [
           "Message"
         ],
-        "operationId": "uploadMediaMessage",
+        "operationId": "uploadMedia",
         "parameters": [
           {
             "name": "chat-id",
@@ -75,16 +75,16 @@
           "content": {
             "multipart/form-data": {
               "schema": {
+                "required": [
+                  "file"
+                ],
                 "type": "object",
                 "properties": {
                   "file": {
                     "type": "string",
                     "format": "binary"
                   }
-                },
-                "required": [
-                  "file"
-                ]
+                }
               }
             }
           }
@@ -101,7 +101,7 @@
         "tags": [
           "Chat"
         ],
-        "operationId": "getChatsByRecipient",
+        "operationId": "getChatsByReceiver",
         "responses": {
           "200": {
             "description": "OK",
@@ -133,7 +133,7 @@
             }
           },
           {
-            "name": "recipient-id",
+            "name": "receiver-id",
             "in": "query",
             "required": true,
             "schema": {
@@ -160,7 +160,7 @@
         "tags": [
           "User"
         ],
-        "operationId": "getAllUsersExceptSelf",
+        "operationId": "getAllUsers",
         "responses": {
           "200": {
             "description": "OK",
@@ -183,7 +183,7 @@
         "tags": [
           "Message"
         ],
-        "operationId": "getMessages",
+        "operationId": "getAllMessages",
         "parameters": [
           {
             "name": "chat-id",
@@ -223,7 +223,7 @@
           "senderId": {
             "type": "string"
           },
-          "recipientId": {
+          "receiverId": {
             "type": "string"
           },
           "type": {
@@ -232,8 +232,7 @@
               "TEXT",
               "IMAGE",
               "VIDEO",
-              "AUDIO",
-              "FILE"
+              "AUDIO"
             ]
           },
           "chatId": {
@@ -283,6 +282,15 @@
           "content": {
             "type": "string"
           },
+          "type": {
+            "type": "string",
+            "enum": [
+              "TEXT",
+              "IMAGE",
+              "VIDEO",
+              "AUDIO"
+            ]
+          },
           "state": {
             "type": "string",
             "enum": [
@@ -290,29 +298,22 @@
               "SEEN"
             ]
           },
-          "type": {
-            "type": "string",
-            "enum": [
-              "TEXT",
-              "IMAGE",
-              "VIDEO",
-              "AUDIO",
-              "FILE"
-            ]
-          },
           "senderId": {
             "type": "string"
           },
-          "recipientId": {
+          "receiverId": {
             "type": "string"
           },
-          "createdDate": {
+          "createdAt": {
             "type": "string",
             "format": "date-time"
           },
           "media": {
-            "type": "string",
-            "format": "byte"
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "byte"
+            }
           }
         }
       },
@@ -339,7 +340,7 @@
           "senderId": {
             "type": "string"
           },
-          "recipientId": {
+          "receiverId": {
             "type": "string"
           },
           "recipientOnline": {
@@ -349,7 +350,7 @@
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
+      "keycloak": {
         "type": "oauth2",
         "in": "header",
         "scheme": "bearer",
@@ -358,15 +359,7 @@
           "password": {
             "authorizationUrl": "http://localhost:9090/realms/whatsapp-clone/protocol/openid-connect/auth",
             "tokenUrl": "http://localhost:9090/realms/whatsapp-clone/protocol/openid-connect/token",
-            "refreshUrl": "http://localhost:9090/realms/whatsapp-clone/protocol/openid-connect/token",
-            "scopes": {
-              "openid": "OpenID",
-              "profile": "Profile",
-              "email": "Email",
-              "address": "Address",
-              "phone": "Phone",
-              "offline_access": "Offline Access"
-            }
+            "scopes": {}
           }
         }
       }
