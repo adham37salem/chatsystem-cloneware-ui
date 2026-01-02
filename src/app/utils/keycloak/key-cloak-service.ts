@@ -43,8 +43,8 @@ export class KeyCloakService {
   }
 
   async logout() {
-    return this.keyClock.logout({
-      redirectUri: 'http://localhost:4200'
+    return await this.keyClock.logout({
+      redirectUri: 'http://localhost:4200/'
     });
   }
 
