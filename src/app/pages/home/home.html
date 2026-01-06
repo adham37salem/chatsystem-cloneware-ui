@@ -81,7 +81,7 @@
           }
         }
       </div>
-      <div class="bg-gray-500 p-2">
+      <div class="bg-gray-50 p-2">
         <div class="flex items-center gap-2">
           <i class="fas fa-paperclip cursor-pointer"></i>
           <input
@@ -92,6 +92,15 @@
             (change)="uploadMedia($event.target)"
           />
           <i class="fa-regular fa-face-smile cursor-pointer"  (click)="showEmojis = !showEmojis"></i>
+          @if (showEmojis) {
+            <emoji-mart
+              [set]="'google'"
+              title="Pick up your Emoji"
+              emoji="smile"
+              class="emoji-panel"
+              (emojiClick)="onSelectEmoji($event)"
+              ></emoji-mart>
+          }
         </div>
       </div>
     </div>

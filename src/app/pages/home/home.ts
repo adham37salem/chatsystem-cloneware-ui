@@ -7,12 +7,15 @@ import {MessageService} from '../../services/services/message.service';
 import {MessageResponse} from '../../services/models/message-response';
 import {Message} from 'postcss';
 import {DatePipe} from '@angular/common';
+import {emojis} from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import {PickerComponent} from '@ctrl/ngx-emoji-mart';
 
 @Component({
   selector: 'app-home',
   imports: [
     Chatlist,
-    DatePipe
+    DatePipe,
+    PickerComponent
   ],
   templateUrl: './home.html',
   styleUrl: './home.css',
@@ -21,55 +24,65 @@ export class HomeComponent implements OnInit {
   chats: Array<ChatResponse> = [];
   selectedChat: ChatResponse = {};
   chatMessages: MessageResponse[] = [];
-    ngOnInit(): void {
-      this.getAllChats();
-    }
-    constructor(
-      private chatService: ChatService,
-      private keyClockService: KeyCloakService,
-      private messageService: MessageService,
-    ) {}
-    getAllChats() {
-      this.chatService.getChatsByReceiver()
-        .subscribe(chats => {
-          this.chats = chats;
-        })
-    }
+  showEmojis: boolean = false;
 
-    async logout() {
-      await this.keyClockService.logout();
-    }
+  ngOnInit(): void {
+    this.getAllChats();
+  }
 
-    async userProfile() {
-      await this.keyClockService.accountManagement();
-    }
+  constructor(
+    private chatService: ChatService,
+    private keyClockService: KeyCloakService,
+    private messageService: MessageService,
+  ) {
+  }
 
-    chatSelected(chatResponse: ChatResponse) {
-      this.selectedChat = chatResponse;
-      this.getAllChatMessages(chatResponse.id as string);
-      this.setMessagesToSeen();
-      // this.selectedChat.unreadCount = 0;
-    }
+  getAllChats() {
+    this.chatService.getChatsByReceiver()
+      .subscribe(chats => {
+        this.chats = chats;
+      })
+  }
 
-    private getAllChatMessages(chatId: string) {
-      this.messageService.getAllMessages({
-        'chat-id': chatId,
-      }).subscribe({
-        next: (messages) => {
-          this.chatMessages = messages;
-        }
-      });
-    }
+  async logout() {
+    await this.keyClockService.logout();
+  }
 
-    isSelfMessage(message: MessageResponse) {
-       return message.senderId === this.keyClockService.userId;
-    }
+  async userProfile() {
+    await this.keyClockService.accountManagement();
+  }
 
-    private setMessagesToSeen() {
+  chatSelected(chatResponse: ChatResponse) {
+    this.selectedChat = chatResponse;
+    this.getAllChatMessages(chatResponse.id as string);
+    this.setMessagesToSeen();
+    // this.selectedChat.unreadCount = 0;
+  }
 
-    }
+  private getAllChatMessages(chatId: string) {
+    this.messageService.getAllMessages({
+      'chat-id': chatId,
+    }).subscribe({
+      next: (messages) => {
+        this.chatMessages = messages;
+      }
+    });
+  }
 
-    uploadMedia(event: any) {
+  isSelfMessage(message: MessageResponse) {
+    return message.senderId === this.keyClockService.userId;
+  }
 
-    }
+  private setMessagesToSeen() {
+
+  }
+
+  uploadMedia(event: any) {
+
+  }
+
+  protected readonly emojis = emojis;
+  onSelectEmoji(emoji: any) {
+    console.log(emoji);
+  }
 }

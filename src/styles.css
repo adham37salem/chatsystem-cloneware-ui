@@ -3,6 +3,7 @@
 /* Sass @import deprecation warning is expected but harmless - Tailwind CSS v4 supports this */
 @import "tailwindcss";
 @import "@fortawesome/fontawesome-free/css/all.min.css";
+@import "@ctrl/ngx-emoji-mart/picker";
 
 .user-img {
   width: 40px;

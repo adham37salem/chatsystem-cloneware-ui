@@ -80,7 +80,6 @@
     }
   }
 }
-
 i {
   &.seen {
     color: #53bdeb;
@@ -88,4 +87,9 @@ i {
   &.ml-neg {
     margin-left: -7px;
   }
+}
+.emoji-panel {
+  position: absolute;
+  bottom: 50px;
+  left: 300px;
 }
