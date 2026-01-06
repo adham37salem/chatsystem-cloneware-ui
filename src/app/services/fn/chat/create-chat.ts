@@ -12,7 +12,7 @@ import { StringResponse } from '../../models/string-response';
 
 export interface CreateChat$Params {
   'sender-id': string;
-  'receiver-id': string;
+    'receiver-id': string;
 }
 
 export function createChat(http: HttpClient, rootUrl: string, params: CreateChat$Params, context?: HttpContext): Observable<StrictHttpResponse<StringResponse>> {

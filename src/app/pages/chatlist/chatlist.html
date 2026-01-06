@@ -61,7 +61,7 @@
     }
   } @else if (searchNewContact) {
     @for (contact of contacts; track contact) {
-      <div class="flex items-center justify-between border border-b-gray-400 p-2" (click)="selectContact(contact)">
+      <div class="flex items-center justify-between border border-b-gray-400 p-2 cursor-pointer" (click)="selectContact(contact)">
         <div class="flex gap-2">
           <div class="user-img">
             <img src="/user.png" alt="" />

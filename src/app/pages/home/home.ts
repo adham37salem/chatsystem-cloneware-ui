@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
     this.selectedChat = chatResponse;
     this.getAllChatMessages(chatResponse.id as string);
     this.setMessagesToSeen();
-    // this.selectedChat.unreadCount = 0;
+    this.selectedChat.unreadCount = 0;
   }
 
   private getAllChatMessages(chatId: string) {
