@@ -34,7 +34,7 @@
 <div class="mt-4">
   @if (chats().length && !searchNewContact) {
     @for (chat of chats(); track chat) {
-      <div class="flex items-center justify-between p-2 border border-[#CCC]" (click)="chatClicked()">
+      <div class="flex items-center justify-between p-2 border border-[#CCC]" (click)="chatClicked(chat)">
         <div class="flex gap-2">
           <div class="user-img">
             <img src="/user.png" alt="" />

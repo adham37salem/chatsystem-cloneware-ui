@@ -1,4 +1,4 @@
-import {Component, input, InputSignal} from '@angular/core';
+import {Component, input, InputSignal, output} from '@angular/core';
 import {ChatResponse} from '../../services/models/chat-response';
 import {fakeAsync} from '@angular/core/testing';
 import {DatePipe} from '@angular/common';
@@ -17,6 +17,7 @@ export class Chatlist {
   chats: InputSignal<ChatResponse[]> = input<ChatResponse[]>([]);
   searchNewContact: boolean = false;
   contacts: Array<UserResponse> = [];
+  chatSelected = output<ChatResponse>();
   constructor(private userService: UserService) {}
 
 
@@ -31,8 +32,8 @@ export class Chatlist {
 
   }
 
-  chatClicked() {
-
+  chatClicked(chat: ChatResponse) {
+    this.chatSelected.emit(chat);
   }
 
   wrapMessage(lastMessage: string | undefined) {
