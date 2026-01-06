@@ -37,7 +37,7 @@
       <div class="flex items-center justify-between p-2 border border-[#CCC]" (click)="chatClicked(chat)">
         <div class="flex gap-2">
           <div class="user-img">
-            <img src="/user.png" alt="" />
+            <img src="/user.png" alt=""/>
           </div>
           <div class="flex flex-col">
             <span>{{ chat.name }}</span>
@@ -50,8 +50,8 @@
           </div>
         </div>
         <div class="flex flex-col items-end">
-          <span class="text-green-500" [class.unread]="chat.unreadCount && chat.unreadCount > 0">
-            {{ chat.lastMessageTime | date: 'dd.MM.yy HH.mm' }}
+          <span class="msg-date text-green-500" [class.unread]="chat.unreadCount && chat.unreadCount > 0">
+          {{ formatChatTimeStamp(chat.lastMessageTime) }}
           </span>
           @if (chat.unreadCount && chat.unreadCount > 0) {
             <small class="unread-msg-badge text-green-500">{{ chat.unreadCount }}</small>
@@ -61,13 +61,14 @@
     }
   } @else if (searchNewContact) {
     @for (contact of contacts; track contact) {
-      <div class="flex items-center justify-between border border-b-gray-400 p-2 cursor-pointer" (click)="selectContact(contact)">
+      <div class="flex items-center justify-between border border-b-gray-400 p-2 cursor-pointer"
+           (click)="selectContact(contact)">
         <div class="flex gap-2">
           <div class="user-img">
-            <img src="/user.png" alt="" />
+            <img src="/user.png" alt=""/>
           </div>
           <div class="flex flex-col">
-            <span>{{ contact.firstName + ' '  + contact.lastName}}</span>
+            <span>{{ contact.firstName + ' ' + contact.lastName }}</span>
             @if (contact.online) {
               <small class="text-green-500">Online</small>
             } @else {

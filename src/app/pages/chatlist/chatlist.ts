@@ -14,6 +14,7 @@ import {KeyCloakService} from '../../utils/keycloak/key-cloak-service';
   ],
   templateUrl: './chatlist.html',
   styleUrl: './chatlist.css',
+  providers: [DatePipe]
 })
 export class Chatlist {
   chats: InputSignal<ChatResponse[]> = input<ChatResponse[]>([]);
@@ -23,9 +24,41 @@ export class Chatlist {
   constructor(
     private userService: UserService,
     private chatService: ChatService,
-    private keyCloakService: KeyCloakService
+    private keyCloakService: KeyCloakService,
+    private datePipe: DatePipe
   ) {}
 
+
+  formatChatTimeStamp(value?: string): string {
+    const date = this.parseDate(value);
+    if (!date)
+      return '';
+    const now = new Date();
+    if (this.isSameDay(date, now)) {
+      return this.datePipe.transform(date, 'HH:mm') ?? '';
+    }
+    return this.datePipe.transform(date, 'dd.MM.yy') ?? '';
+  }
+
+  private isSameDay(firstDate: Date, secondDate: Date): boolean {
+    return (
+      firstDate.getFullYear() === secondDate.getFullYear() &&
+        firstDate.getMonth() === secondDate.getMonth() &&
+        firstDate.getDate() === secondDate.getDate()
+    );
+  }
+
+  private parseDate(value?: string): Date | null {
+    if (!value)
+      return null;
+    // supports epoch milliseconds as string too
+    if (/^\d+$/.test(value)) {
+      const date = new Date(Number(value));
+      return isNaN(date.getTime()) ? null : date;
+    }
+    const date = new Date(value);
+    return isNaN(date.getTime()) ? null : date;
+  }
 
 
   searchContact() {

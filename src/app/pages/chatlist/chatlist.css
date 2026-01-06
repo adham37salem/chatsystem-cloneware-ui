@@ -1,5 +1,7 @@
 .msg-date {
   font-size: 0.7rem;
+  white-space: nowrap;
+  line-height: 1;
   &.unread {
     color: #1fa855;
     font-weight: 500;
