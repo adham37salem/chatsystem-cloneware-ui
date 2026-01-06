@@ -7,7 +7,7 @@ import {MessageService} from '../../services/services/message.service';
 import {MessageResponse} from '../../services/models/message-response';
 import {Message} from 'postcss';
 import {DatePipe} from '@angular/common';
-import {emojis} from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import {EmojiData, emojis} from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import {PickerComponent} from '@ctrl/ngx-emoji-mart';
 import {FormsModule} from '@angular/forms';
 
@@ -84,8 +84,10 @@ export class HomeComponent implements OnInit {
 
   }
 
-  onSelectEmoji(event: any) {
-    console.log(event);
+  onSelectEmoji(emojiSelected: any) {
+    /* Embed the emoji in the message content */
+    const emoji: EmojiData = emojiSelected.emoji;
+    this.messageContent += emoji.native;
   }
 
   keyDown(event: KeyboardEvent) {
