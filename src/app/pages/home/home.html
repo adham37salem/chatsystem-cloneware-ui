@@ -101,6 +101,22 @@
               (emojiClick)="onSelectEmoji($event)"
               ></emoji-mart>
           }
+          <input
+            type="text"
+            class="flex-1 min-w-0 bg-white border border-gray-300 rounded-full px-4 py-2 text-sm text-gray-800 placeholder-gray-400
+         focus:outline-none focus:ring-2 focus:ring-[#1ea884]/30 focus:border-[#1ea884]"
+            placeholder="Type your message..."
+            [(ngModel)]="messageContent"
+            (keydown)="keyDown($event)"
+            (click)="onClick()"
+            autocomplete="off"
+          />
+
+          @if (messageContent) {
+            <i class="fas fa-paper-plane cursor-pointer" (click)="sendMessage()"></i>
+          } @else {
+            <i class="fas fa-microphone cursor-pointer"></i>
+          }
         </div>
       </div>
     </div>

@@ -9,13 +9,15 @@ import {Message} from 'postcss';
 import {DatePipe} from '@angular/common';
 import {emojis} from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import {PickerComponent} from '@ctrl/ngx-emoji-mart';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   imports: [
     Chatlist,
     DatePipe,
-    PickerComponent
+    PickerComponent,
+    FormsModule
   ],
   templateUrl: './home.html',
   styleUrl: './home.css',
@@ -25,6 +27,7 @@ export class HomeComponent implements OnInit {
   selectedChat: ChatResponse = {};
   chatMessages: MessageResponse[] = [];
   showEmojis: boolean = false;
+  messageContent: string = '';
 
   ngOnInit(): void {
     this.getAllChats();
@@ -81,8 +84,18 @@ export class HomeComponent implements OnInit {
 
   }
 
-  protected readonly emojis = emojis;
-  onSelectEmoji(emoji: any) {
-    console.log(emoji);
+  onSelectEmoji(event: any) {
+    console.log(event);
+  }
+
+  keyDown(event: KeyboardEvent) {
+
+  }
+  onClick() {
+
+  }
+
+  sendMessage() {
+
   }
 }
